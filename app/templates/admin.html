@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+
+<div class="flex items-center justify-between mb-4">
+  <div class="page-header" style="margin-bottom:0">
+    <h1 class="page-title">Admin — Application Registry</h1>
+    <p class="page-subtitle">
+      Registry loaded: {{ 'Yes' if registry_loaded else 'No' }}
+      &mdash; {{ registry_count }} registered application(s)
+    </p>
+  </div>
+
+  <form action="{{ url_for('admin.reload_registry') }}" method="post" style="margin:0">
+    <button class="btn btn-secondary" type="submit"
+            onclick="return confirm('Reload registry from disk?')">
+      Reload Registry
+    </button>
+  </form>
+</div>
+
+{% if apps %}
+<div style="overflow-x:auto;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Route</th>
+        <th>Owner</th>
+        <th>Status</th>
+        <th>Enabled</th>
+        <th>Health URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for app in apps | sort(attribute='display_order') %}
+        <tr>
+          <td><code>{{ app.application_id }}</code></td>
+          <td>{{ app.name }}</td>
+          <td>{{ app.category }}</td>
+          <td><a href="{{ app.route }}">{{ app.route }}</a></td>
+          <td>{{ app.owner or '—' }}</td>
+          <td>
+            <span class="status-badge {{ app.status_css_class }}">
+              <span class="status-dot"></span>
+              {{ app.status_label }}
+            </span>
+          </td>
+          <td>
+            {% if app.enabled %}
+              <span class="tag-enabled">Enabled</span>
+            {% else %}
+              <span class="tag-disabled">Disabled</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if app.health_check_url %}
+              <code style="font-size:11px;">{{ app.health_check_url }}</code>
+            {% else %}
+              <span style="color:var(--text-muted)">—</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+  <div class="alert alert-warning">No applications in registry. Check <code>config/applications.yaml</code>.</div>
+{% endif %}
+
+<div class="alert alert-info mt-4">
+  To add or edit applications, update <code>config/applications.yaml</code> and click
+  <strong>Reload Registry</strong>.  No restart required.
+</div>
+
+{% endblock %}

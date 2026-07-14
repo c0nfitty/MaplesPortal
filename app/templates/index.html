@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Applications{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  {% if search_query %}
+    <h1 class="page-title">Search: &ldquo;{{ search_query }}&rdquo;</h1>
+    <p class="page-subtitle">
+      {{ grouped.values() | sum(start=[]) | list | length }} result(s) &mdash;
+      <a href="{{ url_for('main.index') }}">Clear search</a>
+    </p>
+  {% else %}
+    <h1 class="page-title">Applications</h1>
+    <p class="page-subtitle">Select an application to launch it.</p>
+  {% endif %}
+</div>
+
+{% if not categories %}
+  <div class="alert alert-info">
+    {% if search_query %}
+      No applications matched your search.
+    {% else %}
+      No applications are available for your account. Contact your administrator if you believe this is incorrect.
+    {% endif %}
+  </div>
+{% endif %}
+
+{% for category in categories %}
+  {% set apps = grouped[category] %}
+  {% if apps %}
+    <section class="category-section" aria-labelledby="cat-{{ category | replace(' ', '-') | lower }}">
+      <h2 class="category-heading" id="cat-{{ category | replace(' ', '-') | lower }}">
+        {{ category }}
+      </h2>
+
+      <div class="card-grid">
+        {% for app in apps %}
+          <article class="app-card {% if not app.enabled %}disabled{% endif %}">
+
+            <div class="card-header">
+              <div class="card-icon" aria-hidden="true">
+                {# Simple icon characters keyed to the icon field #}
+                {% if app.icon == 'search' %}&#128269;
+                {% elif app.icon == 'chart' %}&#128202;
+                {% elif app.icon == 'cog' %}&#9881;
+                {% elif app.icon == 'file' %}&#128196;
+                {% elif app.icon == 'users' %}&#128101;
+                {% else %}&#9783;
+                {% endif %}
+              </div>
+              <h3 class="card-title">{{ app.name }}</h3>
+            </div>
+
+            <p class="card-description">{{ app.short_description }}</p>
+
+            <div class="card-footer">
+              <div>
+                <span class="status-badge {{ app.status_css_class }}">
+                  <span class="status-dot"></span>
+                  {{ app.status_label }}
+                </span>
+                {% if app.owner %}
+                  <div class="card-meta mt-4">Owner: {{ app.owner }}</div>
+                {% endif %}
+              </div>
+
+              {% if app.enabled and app.status != 'unavailable' %}
+                <a class="btn btn-primary btn-sm" href="{{ app.route }}">Launch</a>
+              {% elif app.enabled %}
+                <button class="btn btn-primary btn-sm" disabled title="Application is currently unavailable">Launch</button>
+              {% else %}
+                <span class="btn btn-secondary btn-sm" style="cursor:default; opacity:.6;">Disabled</span>
+              {% endif %}
+            </div>
+
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+{% endfor %}
+
+{% endblock %}

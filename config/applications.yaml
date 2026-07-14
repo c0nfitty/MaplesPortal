@@ -1,0 +1,72 @@
+# Application Registry
+# --------------------
+# Each entry here becomes a card on the portal home page.
+# IBM HTTP Server must have a matching ProxyPass directive for each route.
+#
+# Fields:
+#   application_id   — unique slug, matches the ProxyPass path segment
+#   name             — display name on the card
+#   short_description— one-line summary shown on the card
+#   long_description — optional longer description (future use)
+#   category         — groups cards on the home page
+#   route            — URL path users visit  e.g. /apps/pattern-search
+#   internal_url     — where the app actually listens (localhost only)
+#   icon             — simple icon name (search, chart, cog, grid, file, etc.)
+#   owner            — IBM i user profile or full name of the app owner
+#   support_contact  — email address for support questions
+#   required_roles   — list of portal roles; empty list = visible to all logged-in users
+#   enabled          — false hides the app from the portal and disables the proxy
+#   display_order    — lower numbers appear first within their category
+#   health_check_url — GET this URL; 200 = available, anything else = unavailable
+#   documentation_url— optional link to docs
+#   source_repository— optional link to source
+#   environment      — production | staging | development
+#   last_verified_date— ISO date the app was last confirmed working
+
+applications:
+
+  - application_id: pattern-search
+    name: Pattern Search
+    short_description: Search rug patterns using natural language.
+    long_description: >
+      AI-powered search tool that lets product users and developers find rug
+      patterns from the catalog using plain English queries.
+    category: AI Tools
+    route: /apps/pattern-search
+    internal_url: http://127.0.0.1:5005
+    icon: search
+    owner: Anthony Shrader
+    support_contact: ashrader@maplesrugs.com
+    required_roles:
+      - developers
+      - product_users
+      - portal_users
+      - admin_users
+    enabled: true
+    display_order: 10
+    health_check_url: http://127.0.0.1:5005/health
+    documentation_url: ""
+    source_repository: ""
+    environment: production
+    last_verified_date: "2026-07-13"
+
+
+  # --- Template for future apps ---
+  # Uncomment and fill in when onboarding a new application.
+  #
+  # - application_id: my-new-app
+  #   name: My New App
+  #   short_description: One sentence describing what this does.
+  #   category: Reporting
+  #   route: /apps/my-new-app
+  #   internal_url: http://127.0.0.1:5010
+  #   icon: chart
+  #   owner: Developer Name
+  #   support_contact: dev@maplesrugs.com
+  #   required_roles:
+  #     - developers
+  #   enabled: false
+  #   display_order: 20
+  #   health_check_url: http://127.0.0.1:5010/health
+  #   environment: development
+  #   last_verified_date: ""

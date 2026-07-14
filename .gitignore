@@ -1,0 +1,28 @@
+# Virtual environment
+venv/
+
+# Logs and runtime files
+logs/
+*.pid
+
+# Compiled Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Sensitive config — keep out of source control
+config/users.yaml
+
+# Environment / secrets files
+.env
+.env.*
+*.secret
+
+# Editor and OS artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/

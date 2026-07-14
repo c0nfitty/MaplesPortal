@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Internal Error{% endblock %}
+{% block content %}
+<div class="error-page">
+  <div class="error-code">500</div>
+  <h1 class="error-title">Internal Portal Error</h1>
+  <p class="error-detail">
+    Something went wrong on our end. The error has been logged.
+    Please try again, or contact
+    <a href="mailto:ashrader@maplesrugs.com">portal support</a>
+    if the problem persists.
+  </p>
+  <a class="btn btn-primary" href="{{ url_for('main.index') }}">Return to Portal</a>
+</div>
+{% endblock %}

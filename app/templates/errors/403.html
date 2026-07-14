@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Access Denied{% endblock %}
+{% block content %}
+<div class="error-page">
+  <div class="error-code">403</div>
+  <h1 class="error-title">Access Denied</h1>
+  <p class="error-detail">
+    You do not have permission to view this page.
+    If you believe this is a mistake, contact your administrator.
+  </p>
+  <a class="btn btn-primary" href="{{ url_for('main.index') }}">Return to Portal</a>
+</div>
+{% endblock %}

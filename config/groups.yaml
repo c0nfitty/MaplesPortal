@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------------
+# IBM i → Portal Role Mapping
+#
+# Three sources are checked for every authenticated user, in order:
+#
+#   1. user_class_roles  — IBM i user class (*PGMR, *SYSOPR, *SECOFR, etc.)
+#                          Good default when group profiles are inconsistent.
+#   2. group_roles       — Primary group profile + supplemental groups.
+#                          Use for fine-grained overrides per team/group.
+#   3. default_roles     — Fallback if neither class nor group matched anything.
+#
+# A user accumulates roles from ALL matching sources (class + groups combined).
+# admin_users always get the 'admins' role appended on top.
+#
+# Portal roles (used in applications.yaml required_roles):
+#   portal_users   — baseline; every authenticated IBM i user should have this
+#   developers     — developer-facing applications
+#   product_users  — business/product applications
+#   admins         — Admin panel
+#
+# To check a user's class and groups on the IBM i:
+#   SELECT USER_NAME, USER_CLASS_NAME, GROUP_PROFILE_NAME, SUPPLEMENTAL_GROUP_LIST
+#   FROM QSYS2.USER_INFO
+#   WHERE USER_NAME = 'ASHRADER'
+# ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# User class mapping
+# IBM i user classes: *USER *PGMR *SYSOPR *SECADM *SECOFR
+# ---------------------------------------------------------------------------
+user_class_roles:
+
+  "*PGMR":
+    - portal_users
+    - developers
+    - product_users
+
+  "*SYSOPR":
+    - portal_users
+    - product_users
+
+  "*SECADM":
+    - portal_users
+    - developers
+    - product_users
+
+  "*SECOFR":
+    - portal_users
+    - developers
+    - product_users
+
+  "*USER":
+    - portal_users
+    - product_users
+
+
+# ---------------------------------------------------------------------------
+# Group profile mapping (primary group + supplemental groups)
+# Use these to override or extend what user class gives someone.
+# All-caps group names, matching IBM i profile names exactly.
+# ---------------------------------------------------------------------------
+group_roles:
+
+  # Example — uncomment and rename to your actual group profiles:
+  # DEVTEAM:
+  #   - developers
+  # SALESTEAM:
+  #   - product_users
+
+
+# ---------------------------------------------------------------------------
+# Individual user overrides — always receive 'admins' role
+# ---------------------------------------------------------------------------
+admin_users:
+  - AS5289
+
+
+# ---------------------------------------------------------------------------
+# Fallback — if user class AND groups both produce no matches
+# Set to [] to deny access to completely unmapped users
+# ---------------------------------------------------------------------------
+default_roles:
+  - portal_users

@@ -1,0 +1,30 @@
+# Portal dependencies
+# Install inside a virtual environment:
+#   python3 -m venv venv
+#   source venv/bin/activate      # PASE
+#   pip install -r requirements.txt
+
+Flask>=3.0,<4.0
+PyYAML>=6.0
+requests>=2.31
+itoolkit>=1.7        # IBM i system API calls (pure Python, installs via pip)
+
+# ibm_db + ibm_db_dbi — install via yum, then symlink BOTH files into venv:
+#   yum install python3-ibm_db
+#   ln -s /QOpenSys/pkgs/lib/python3.9/site-packages/ibm_db.cpython-39.so \
+#         venv/lib/python3.9/site-packages/ibm_db.cpython-39.so
+#   ln -s /QOpenSys/pkgs/lib/python3.9/site-packages/ibm_db_dbi.py \
+#         venv/lib/python3.9/site-packages/ibm_db_dbi.py
+#
+# Verify both work:
+#   python3 -c "import ibm_db; print('ibm_db OK')"
+#   python3 -c "import ibm_db_dbi; print('ibm_db_dbi OK')"
+#
+# pyodbc — NOT available for Python 3.9 on IBM i PASE — do not use
+
+# Production WSGI server — choose one:
+waitress>=3.0        # Recommended on IBM i PASE (pure Python, no C extension)
+# gunicorn>=21.0     # Alternative if your PASE Python build supports it
+
+# Optional: structured logging
+# python-json-logger>=2.0

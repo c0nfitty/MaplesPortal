@@ -1,0 +1,392 @@
+/* =========================================================
+   Maplesrugs Internal Portal — Stylesheet
+   ========================================================= */
+
+/* --- Variables ------------------------------------------ */
+:root {
+  --ibm-blue:       #1f70c1;
+  --ibm-blue-dark:  #0f4c8a;
+  --ibm-blue-light: #e8f0fb;
+  --text-primary:   #161616;
+  --text-secondary: #525252;
+  --text-muted:     #8d8d8d;
+  --bg-page:        #f4f4f4;
+  --bg-card:        #ffffff;
+  --border:         #e0e0e0;
+  --radius:         6px;
+  --shadow:         0 1px 4px rgba(0,0,0,.10);
+  --shadow-hover:   0 4px 12px rgba(0,0,0,.14);
+
+  --status-available:    #24a148;
+  --status-unavailable:  #da1e28;
+  --status-maintenance:  #f1c21b;
+  --status-unknown:      #8d8d8d;
+}
+
+/* --- Reset / base --------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', 'Segoe UI', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+a { color: var(--ibm-blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* --- Top navigation ------------------------------------- */
+.navbar {
+  background: var(--ibm-blue-dark);
+  color: #fff;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+.navbar-brand {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.navbar-brand span {
+  font-weight: 300;
+  opacity: .8;
+}
+
+.navbar-search {
+  flex: 1;
+  max-width: 420px;
+}
+
+.navbar-search form {
+  display: flex;
+  gap: 0;
+}
+
+.navbar-search input {
+  flex: 1;
+  padding: 6px 12px;
+  border: none;
+  border-radius: var(--radius) 0 0 var(--radius);
+  font-size: 13px;
+  outline: none;
+}
+
+.navbar-search button {
+  padding: 6px 14px;
+  background: var(--ibm-blue);
+  color: #fff;
+  border: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.navbar-search button:hover { background: var(--ibm-blue-dark); }
+
+.navbar-spacer { flex: 1; }
+
+.navbar-user {
+  font-size: 12px;
+  opacity: .8;
+  white-space: nowrap;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.navbar-links a {
+  color: rgba(255,255,255,.85);
+  font-size: 13px;
+}
+
+.navbar-links a:hover { color: #fff; text-decoration: none; }
+
+/* --- Page layout ---------------------------------------- */
+.page-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+/* --- Category headings ---------------------------------- */
+.category-section {
+  margin-bottom: 36px;
+}
+
+.category-heading {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+/* --- App card grid ------------------------------------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.app-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow .15s, transform .15s;
+}
+
+.app-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.card-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--ibm-blue-light);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--ibm-blue);
+  font-size: 18px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.card-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.card-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* --- Status badge --------------------------------------- */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #f4f4f4;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-available   .status-dot { background: var(--status-available); }
+.status-unavailable .status-dot { background: var(--status-unavailable); }
+.status-maintenance .status-dot { background: var(--status-maintenance); }
+.status-unknown     .status-dot { background: var(--status-unknown); }
+
+/* --- Launch button -------------------------------------- */
+.btn {
+  display: inline-block;
+  padding: 7px 16px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background .12s;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--ibm-blue);
+  color: #fff;
+}
+
+.btn-primary:hover { background: var(--ibm-blue-dark); color: #fff; text-decoration: none; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ibm-blue);
+  border: 1px solid var(--ibm-blue);
+}
+
+.btn-secondary:hover { background: var(--ibm-blue-light); text-decoration: none; }
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.btn-danger {
+  background: #da1e28;
+  color: #fff;
+}
+
+.btn-danger:hover { background: #a2191f; color: #fff; }
+
+/* disabled app */
+.app-card.disabled {
+  opacity: .55;
+}
+
+.app-card.disabled .btn-primary {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Admin table ---------------------------------------- */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 13px;
+}
+
+.admin-table th {
+  background: var(--ibm-blue-light);
+  color: var(--ibm-blue-dark);
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-table tr:hover td { background: #f9f9f9; }
+
+.tag-disabled {
+  background: #ffcccc;
+  color: #a2191f;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.tag-enabled {
+  background: #defbe6;
+  color: #198038;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* --- Error pages ---------------------------------------- */
+.error-page {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.error-code {
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--ibm-blue);
+  line-height: 1;
+}
+
+.error-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 12px 0 8px;
+}
+
+.error-detail {
+  color: var(--text-secondary);
+  max-width: 460px;
+  margin: 0 auto 24px;
+}
+
+/* --- Utilities ------------------------------------------ */
+.alert {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.alert-info    { background: var(--ibm-blue-light); border-left: 3px solid var(--ibm-blue); }
+.alert-warning { background: #fff8e7; border-left: 3px solid #f0c040; }
+.alert-danger  { background: #fff0f0; border-left: 3px solid #da1e28; }
+
+.mt-4  { margin-top: 16px; }
+.mb-4  { margin-bottom: 16px; }
+.flex  { display: flex; }
+.gap-2 { gap: 8px; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
