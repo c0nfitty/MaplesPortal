@@ -1,4 +1,4 @@
-<img src="docs/Logo.png" alt="Maples Rugs" width="300" />
+<img src="docs/wLogo.png" alt="Maples Rugs" width="300" />
 
 # MaplesPortal
 
